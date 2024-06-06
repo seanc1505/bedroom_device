@@ -4,7 +4,7 @@ import json
 # access_token="59b8e171fd8e2bb059ae59d030f4cfc462e13f2b"
 # refresh="b65a670da38ee038c7ed7645c3cfcca7fa3552e9"
 
-with open('secrets.json') as secrets_file:
+with open('./python_code_dev/secrets.json') as secrets_file:
     secrets = json.load(secrets_file)
 
 access_token = secrets['access_token']
@@ -24,6 +24,7 @@ def check_token():
         print("Access token is valid.")
         return
     else: 
+        print("token no longer valid, refreshing")
         response = requests.post('https://www.strava.com/oauth/token',
         data={
             'client_id': client_id,
@@ -33,13 +34,14 @@ def check_token():
         })
         
     if response.status_code == 200:
+        print("New token recieved")
         response_data = response.json()
         access_token = response_data['access_token']
         refresh_token = response_data['refresh_token']
         secrets['access_token'] = access_token
         secrets['refresh_token'] = refresh_token
         
-        with open('secrets.json', 'w') as secrets_file:
+        with open('python_code_dev/secrets.json', 'w') as secrets_file:
             json.dump(secrets, secrets_file, indent=4)
     else:
         print(f"Failed to refresh access token: {response.status_code} {response.json()}")
