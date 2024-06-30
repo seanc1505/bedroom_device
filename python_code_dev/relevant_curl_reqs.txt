@@ -1,0 +1,17 @@
+verify
+
+curl -X POST https://www.strava.com/api/v3/push_subscriptions \
+  -F client_id=client_id \
+  -F client_secret=client_secret \
+  -F callback_url=https://randomname.loca.lt/webhook \
+  -F verify_token=verify token
+
+// manage subs
+
+curl -G https://www.strava.com/api/v3/push_subscriptions \
+  -d client_id=YOUR_CLIENT_ID \
+  -d client_secret=YOUR_CLIENT_SECRET
+
+
+
+curl -X DELETE https://www.strava.com/api/v3/push_subscriptions/260568 -d client_id=client id -d client_secret=secret
